@@ -89,7 +89,9 @@ export class UserServices {
         if(!this._myPreferences) {
             console.info("actual http:// getMyPreferences called!!");
             this._myPreferences = this.http.get(SERVER + GET_MY_PREFERENCES_URI, this.getOptions())
-                .map(res => res.json()).publishReplay(1)
+                .map(res => res.json())
+                .publishReplay(1)
+                .refCount()
                 .catch((error: any) => Observable.throw(error || 'Server error'));
         }
         else {
@@ -109,6 +111,7 @@ export class UserServices {
                     console.info("user.getMyProfile observable has 'nexted' ")
                     return userServicesThis.user.profile;
                 }).publishReplay(1)
+                .refCount()
                 .catch((error: any) => Observable.throw(error || 'Server error'));
         }
         else {
