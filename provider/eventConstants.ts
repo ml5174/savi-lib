@@ -13,7 +13,8 @@ export const VOLUNTEER_RESTRICTION = {
 export const EVENT_STATUS = {
         0: 'Scheduled',
         1: 'Pending',
-        2: 'Cancelled'
+        2: 'Cancelled',
+        3: 'Urgent'
 }
 export const SAMEDAY_RESTRICTION = {
         0: 'no',
