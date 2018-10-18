@@ -54,7 +54,6 @@ export class UserServices {
                 this.user.name = body.username;
                 this.user.key = res.json().key;
                 this.setId(res.json().key);
-                console.info("user_profile.key: " + this.user.key + "; id: " + this.user.id);
             })
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
@@ -87,35 +86,25 @@ export class UserServices {
     }
     getMyPreferences(): Observable<any> {
         if(!this._myPreferences) {
-            console.info("actual http:// getMyPreferences called!!");
             this._myPreferences = this.http.get(SERVER + GET_MY_PREFERENCES_URI, this.getOptions())
                 .map(res => res.json())
                 .publishReplay(1)
                 .refCount()
                 .catch((error: any) => Observable.throw(error || 'Server error'));
         }
-        else {
-            console.info("cashed getMyPreferences used!!");
-        }
         return this._myPreferences;
     }
 
     getMyProfile(): Observable<any> {
         let userServicesThis = this;
-        console.info("user.getMyProfile called!!");
         if(!userServicesThis._myProfile) {
-            console.info("user.getMyProfile get http!!");
             userServicesThis._myProfile = this.http.get(SERVER + GET_MY_PROFILE_URI, this.getOptions())
                 .map(res => {
                     userServicesThis.user.profile = res.json();
-                    console.info("user.getMyProfile observable has 'nexted' ")
                     return userServicesThis.user.profile;
                 }).publishReplay(1)
                 .refCount()
                 .catch((error: any) => Observable.throw(error || 'Server error'));
-        }
-        else {
-            console.info("cashed getMyProfile used!!");
         }
         return userServicesThis._myProfile;
     }
