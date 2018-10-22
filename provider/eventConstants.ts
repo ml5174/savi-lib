@@ -47,3 +47,6 @@ export const NOTIFICATION_OPTIONS = {
         1: 'yes'
 }
 
+export const MONTH_NAMES: Array<String> = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+
