@@ -108,6 +108,10 @@ export class UserServices {
         }
         return userServicesThis._myProfile;
     }
+
+    clearMyProfile() {
+        this._myProfile = null;
+    }
     createMyProfile(myProfile): Observable<any> {
         this._myProfile = null;
         return this.http.put(SERVER + UPDATE_MY_PROFILE_URI, myProfile, this.getOptions())
