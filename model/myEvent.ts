@@ -15,4 +15,9 @@ export class MyEvent {
   notification_options: string;
   event_notification_schedule: string;
   overlap_override: boolean;
+
+  // added as optional to cover events returned from events/myevents
+  organization_id?: number;
+  organization_name?:string;
+  organization_group?:string;
 }
