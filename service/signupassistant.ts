@@ -207,7 +207,7 @@ export class SignupAssistant {
             .eventDeregisterGroup(event_id, org_id).subscribe(
                 result => {
                     console.log("canceled event registration " + event_id + " for group " + org_id);
-                    this.presentToast("The group is longer signed up for this event");
+                    this.presentToast("The group is no longer registered for this event");
                     this.iscancelSignup = true;
                 },
                 err => {

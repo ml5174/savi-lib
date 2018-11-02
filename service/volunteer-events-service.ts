@@ -121,7 +121,7 @@ export class VolunteerEventsService {
     }
 
     eventDeregisterGroup(eventId: string, groupId: string): Observable<any> {
-        return this.http.delete(SERVER + GET_MYORG_REG_EVENT_URI + eventId + "/" + groupId + "/", this.getOptions())
+        return this.http.delete(SERVER + GET_MYORG_REG_EVENT_URI + groupId + "/" + eventId + "/", this.getOptions())
             .map(res => res)
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
