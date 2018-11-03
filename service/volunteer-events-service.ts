@@ -5,7 +5,7 @@ import { VolunteerEvent } from '../model/volunteer-event';
 import { MyEvent } from '../model/myEvent';
 import { EventImage } from '../model/eventImage';
 import { EventDetail } from '../model/event-detail';
-import { GET_EVENTS_URI } from '../provider/config';
+import { GET_EVENTS_URI, GET_MYORG_REG_EVENT_URI } from '../provider/config';
 import { GET_EVENT_DETAILS_URI } from '../provider/config';
 import { GET_ADMIN_EVENTS_URI } from '../provider/config';
 import { GET_ADMIN_EVENT_DETAILS_URI } from '../provider/config';
@@ -18,6 +18,7 @@ import { UserServices } from '../service/user';
 import { GET_EVENTS_REPORT_URI } from '../provider/config';
 import { EVENT_CATEGORIES_URI } from '../provider/config';
 import { CHECK_MY_EVENTS_URI } from '../provider/config';
+import { group } from '@angular/core/src/animation/dsl';
 
 
 @Injectable()
@@ -74,6 +75,7 @@ export class VolunteerEventsService {
             .map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
     getVolunteerEventsMaxTime(maxTime: string): Observable<VolunteerEvent[]> {
         return this.http.get(SERVER + GET_EVENTS_URI + "?timeMax=" + maxTime)
             .map(res => res.json())
@@ -111,19 +113,33 @@ export class VolunteerEventsService {
             .map(res => res.json())
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
+
     eventDeregister(eventId: string): Observable<any> {
         return this.http.delete(SERVER + EVENT_SIGNUP_URI + eventId + "/", this.getOptions())
             .map(res => res)
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
-    getMyEvents(token: number): Observable<MyEvent[]> {
-        //let header = new Headers();
-        //header.append('Authorization', 'Token ' + token);
-        //let requestoption = new RequestOptions({ headers: header });
+
+    eventDeregisterGroup(eventId: string, groupId: string): Observable<any> {
+        return this.http.delete(SERVER + GET_MYORG_REG_EVENT_URI + groupId + "/" + eventId + "/", this.getOptions())
+            .map(res => res)
+            .catch((error: any) => Observable.throw(error || 'Server error'));
+    }
+    
+    getMyEvents(): Observable<MyEvent[]> {
+
         return this.http.get(SERVER + GET_MYEVENTS_URI, this.getOptions())
             .map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+    
+    getMyEvent(eventId: string): Observable<MyEvent[]> {
+
+        return this.http.get(SERVER + GET_MYEVENTS_URI + eventId + '/', this.getOptions())
+            .map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'getMyEvent: Server error'));
+    }
+
     getEventImage(eventID: string): Observable<EventImage[]> {
         return this.http.get(SERVER + GET_EVENT_IMAGE_URI + eventID + "/")
             .map(res => res.json())
@@ -131,7 +147,7 @@ export class VolunteerEventsService {
     }
     loadMyEvents() {
         if (this.userServices.user.id) {
-            this.getMyEvents(this.userServices.user.id).subscribe(
+            this.getMyEvents().subscribe(
                 myEvents => this.myEvents = myEvents,
                 err => {
                     console.log(err);

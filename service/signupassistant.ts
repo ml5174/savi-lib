@@ -185,22 +185,40 @@ export class SignupAssistant {
             });
     }
   
-  deRegister(id) {
-       this.volunteerEventsService
-          .eventDeregister(id).subscribe(
-          result => {
-              console.log("canceled event registration " + id);
-              this.presentToast("You are no longer signed up for this event");
-              this.iscancelSignup= true;
-          },
-          err => {
-              console.log(err);
-              this.presentToast("Error cancelling event registration");
-              this.iscancelSignup = false;
-          }, () => {
-              this.volunteerEventsService.loadMyEvents();
-          });
-  }
+    deRegister(id) {
+        this.volunteerEventsService
+            .eventDeregister(id).subscribe(
+                result => {
+                    console.log("canceled event registration " + id);
+                    this.presentToast("You are no longer signed up for this event");
+                    this.iscancelSignup = true;
+                },
+                err => {
+                    console.log(err);
+                    this.presentToast("Error cancelling event registration");
+                    this.iscancelSignup = false;
+                }, () => {
+                    this.volunteerEventsService.loadMyEvents();
+                });
+    }
+
+    deregisterGroup(event_id: string, org_id: string) {
+        this.volunteerEventsService
+            .eventDeregisterGroup(event_id, org_id).subscribe(
+                result => {
+                    console.log("canceled event registration " + event_id + " for group " + org_id);
+                    this.presentToast("The group is no longer registered for this event");
+                    this.iscancelSignup = true;
+                },
+                err => {
+                    console.log(err);
+                    this.presentToast("Error cancelling event registration");
+                    this.iscancelSignup = false;
+                }, () => {
+                    this.volunteerEventsService.loadMyEvents();
+                });
+    }
+
 
   cancelEventRegisteration(id): boolean {
       let confirm = this.alertCtrl.create({
@@ -209,16 +227,11 @@ export class SignupAssistant {
           message: 'Are you sure you want to cancel this event Registration?',
           buttons: [
               {
-                  text: 'No',
-                  handler: () => {
-                      console.log('No clicked');
-                  }  
-                               
+                  text: 'No'   
               },
               {
                   text: 'Yes',
                   handler: () => {
-                      console.log('Yes clicked');
                       return this.deRegister(id);
                   }
               }
@@ -228,4 +241,29 @@ export class SignupAssistant {
       confirm.present();
       return this.iscancelSignup;
   }
+    cancelGroupEventRegistration(event_id: string, org_id: string): boolean {
+        const confirm = this.alertCtrl.create({
+            title: 'Group Cancellation Confirmation',
+            cssClass: 'alertReminder',
+            message: 'Are you sure you want to cancel this event Registration for this group?',
+            buttons: [
+                {
+                    text: 'No',
+                    handler: () => {
+                        console.log('No clicked');
+                    }
+                },
+                {
+                    text: 'Yes',
+                    handler: () => {
+                        console.log('Yes clicked');
+                        return this.deregisterGroup(event_id, org_id);
+                    }
+                }
+            ]
+
+        });
+        confirm.present();
+        return this.iscancelSignup;
+    }
 }
