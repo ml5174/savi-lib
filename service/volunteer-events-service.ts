@@ -26,6 +26,10 @@ export class VolunteerEventsService {
 
     myEvents: Array<MyEvent> = [];
     image: Array<EventImage>;
+
+    private _eventCategories: Observable<any> = null; // for myPreference caching
+
+
     private event: any = {
         event_id: <string>{},
         notification_schedule: <number>{},
@@ -40,10 +44,17 @@ export class VolunteerEventsService {
         private userServices: UserServices) {
     }
     getEventCategories() {
-        return this.http.get(SERVER + EVENT_CATEGORIES_URI , this.getOptions())
-            .map(res => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        let volEventServicesThis = this;
+        if(!volEventServicesThis._eventCategories) {
+            volEventServicesThis._eventCategories = volEventServicesThis.http.get(SERVER + EVENT_CATEGORIES_URI, this.getOptions())
+                .map(res => res.json())
+                .publishReplay(1)
+                .refCount()
+                .catch((error: any) => Observable.throw(error.json().error || 'Server error'));            
+        }
+        return volEventServicesThis._eventCategories;
     }
+    
     getEventsReport(body) {
         // TODO: fix this GET_EVENTS_REPORT_URI to use local timezone offset
         return this.http.get(SERVER + GET_EVENTS_REPORT_URI + '?timeMin=' + body.start + 'T06:00:00.000Z&timeMax=' + body.end + 'T06:00:00.000Z', this.getOptionsForReport())
