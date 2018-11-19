@@ -61,11 +61,11 @@ export class VolunteerEventsService {
             .map(res => res.text())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
-    //private commentsUrl = 'backend-mock/events.json';
+
     clearEvents() {
-        console.log("erase myevents was called");
         this.myEvents.length = 0;
     }
+
     getVolunteerEvents(): Observable<any[]> {
         return this.http.get(SERVER + GET_EVENTS_URI)
             .map(res => res.json())
@@ -161,7 +161,7 @@ export class VolunteerEventsService {
             this.getMyEvents().subscribe(
                 myEvents => this.myEvents = myEvents,
                 err => {
-                    console.log(err);
+                    console.log('loadMyEvents error: ' + err);
                 })
         };
     }
@@ -182,7 +182,6 @@ export class VolunteerEventsService {
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
 
-
     getOptions() {
         let headers = new Headers();
         if (this.userServices) if (this.userServices.user.id) headers.append('Authorization', 'Token ' + this.userServices.user.id);
@@ -197,14 +196,7 @@ export class VolunteerEventsService {
         headers.append('Accept', 'application/json, text/csv;q=0.9');
         return new RequestOptions({ headers: headers });
     }
-/*
-    checkMyEvents(eventId: string): Observable<any> {
-        this.event.event_id = eventId;
-        return this.http.post(SERVER + CHECK_MY_EVENTS_URI, this.event, this.getOptions())
-            .map(res => res.json())
-            .catch((error: any) => Observable.throw(error || 'Server error'));
-    }
-*/
+
       setNotificationSchedule(param){
         this.event.notification_schedule = param;
     }
@@ -230,7 +222,6 @@ export class VolunteerEventsService {
             this.event.notification_schedule = 0;
             this.event.overlap_override = true;
             this.event.notification_option = 0;
-            console.log("event:" + JSON.stringify(this.event));
             return this.http.post(SERVER + CHECK_MY_EVENTS_URI,this.event, this.getOptions())
                 .map(res => res.json())
                 .catch((error: any) => Observable.throw(error || 'Server error'));
