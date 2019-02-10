@@ -50,3 +50,5 @@ export const NOTIFICATION_OPTIONS = {
 export const MONTH_NAMES: Array<String> = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
 
+export const CATEGORY_MAP: Array <string> =['Food Service', 'Food Pantry', 'Clothing Warehouse', 'Child Care', 'Practicum Service',
+    'Red Kettle'];

@@ -43,7 +43,7 @@ export class VolunteerEventsService {
     constructor(private http: Http,
         private userServices: UserServices) {
     }
-    getEventCategories() {
+    getEventCategories(): Observable<any> {
         let volEventServicesThis = this;
         if(!volEventServicesThis._eventCategories) {
             volEventServicesThis._eventCategories = volEventServicesThis.http.get(SERVER + EVENT_CATEGORIES_URI, this.getOptions())
