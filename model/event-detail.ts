@@ -25,6 +25,7 @@ export class EventDetail {
   min_volunteers: string;
   notification_option: string;
   notification_schedule: string;
+  event_notification_schedule: string;
   occ_parent: string;
   occ_status: string;
   rule: string;
@@ -41,6 +42,9 @@ export class EventDetail {
   visibility: string;
   volunteer_restriction: string;
   volunteercount: string;
+  org_restriction: string;
+  registeredcount: number;
+  max_registered: number; r
 
   //volunteers array only shows up if admin call is made
   volunteers: string[];
