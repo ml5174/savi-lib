@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UserServices } from '../../lib/service/user';
 import { Nav } from 'ionic-angular';
 import { LoginPage } from '../../pages/login/login';
@@ -15,6 +15,7 @@ import { HomePage } from '../../pages/home/home';
 export class AppHeaderComponent {
   @Input('back') isBack: boolean = false;
   @Input('title') title: string = 'Login';
+  @Output() makeDonation = new EventEmitter<string>();
 
   rootPage: any = HomePage;
   registerPage: any = RegisterLoginPage;
@@ -35,7 +36,7 @@ export class AppHeaderComponent {
   }
   
   donate(){
-  	 window.open('http://www.salvationarmydfw.org/p/get-involved/437', '_blank');
+  	 this.makeDonation.emit('makeDonation');
   }
   
   profile() {

@@ -1,8 +1,12 @@
-<ion-navbar class="navbar-background" hideBackButton="true"> 
- <img class="imageIcon" height="65px" width="65px" src="assets/img/SAVE_logo.svg">
+<ion-navbar hideBackButton="true"> 
+
+ <img style="float: left" height="65px" width="65px" src="assets/img/SAVE_logo.svg">
+ <img style="float: right" height="65px" width="65px" src="assets/img/heart-test.png" (click)="donate();">
  <!-- Added margin to keep title center with lack of menutoggle -->
+ 
   <div class="title1" style="margin-right:55px">Volunteers</div>
-  <div class="title2" style="margin-right:55px">Doing the Most Good <sup class="trademark"> &#174;</sup></div>
+  <div class="title2" style="margin-right:55px">Doing the Most Good <sup class="trademark"> &#174;</sup></div>    
+ 
   <!-- <ion-buttons end> 
     <button ion-button icon-only menuToggle> 
       <ion-icon name="menu"></ion-icon> 
