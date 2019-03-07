@@ -45,7 +45,6 @@ export class OrganizationServices {
 
     createOrganization(org : any) : Observable<any>
     {
-        console.log("New Org Request: " + org);
         return this.http.post(SERVER + NEW_ORGANIZATION_URI, org, this.getOptions())
             .map(res => res.json())
             .catch(this.handleError);
@@ -78,7 +77,6 @@ export class OrganizationServices {
                             observer.next(r);
                             orgCount++;
                         }
-                        console.log("getMyOrganizationsList orgCount: " + orgCount);
                         observer.complete();
                     }
                 });
@@ -140,7 +138,6 @@ export class OrganizationServices {
                                 orgCount++;
                             }
                         }
-                        console.log("getMyOrgsFromOrgRequestsList orgCount: " + orgCount);
                         observer.complete();
                     }
                 });
@@ -261,14 +258,12 @@ export class OrganizationServices {
      }
 
      getOrgContacts(eventId){
-         //console.log("EventId:" + eventId)
           return this.http.get(SERVER + MY_ORG_CONTACTS_URI + eventId +"/", this.getOptions())
         .map(res => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Server error on getOrgContacts'));
      }
 
      getOrgTypes(){
-         //console.log("EventId:" + eventId)
           return this.http.get(SERVER + GET_ORGANIZATION_TYPES_URI, this.getOptions())
         .map(res => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Server error on getOrgTypes'));
@@ -280,7 +275,6 @@ export class OrganizationServices {
     }
     putOrgContactsRequest (orgid,body, useAdmin: boolean = false): Observable<any> {
         let uri = (useAdmin ? ORGANIZATIONCONTACTS_ADMIN_URI : ORGANIZATIONCONTACTS_URI);
-        console.log("url: " + SERVER + uri + orgid +"/; data: " + JSON.stringify(body));
         return this.http.put(SERVER + uri + orgid +"/", JSON.stringify(body),this.getOptions())
         .map(res => res.json())        
         .catch((error: any) => Observable.throw(error.json().error || 'Server error on putOrgContactsRequest'));  
@@ -297,7 +291,6 @@ export class OrganizationServices {
         //   data.options= {"options":options};
 
         data.members = members;
-        console.log(JSON.stringify(data));
         return this.http.post(SERVER + GET_MYORG_REG_EVENT_URI + org_id + "/" + event_id + "/", data, this.getOptions())
             .map(res => res.json())
             .catch(this.handleError);
@@ -317,7 +310,6 @@ export class OrganizationServices {
         for(let member of membersData) {
             payload.members.push(member);
         }
-        console.log('submission payload:' + JSON.stringify(payload));
         return this.createOrganization(payload);
      }
 
